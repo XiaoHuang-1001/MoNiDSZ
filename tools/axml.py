@@ -267,6 +267,15 @@ def move_launcher(data, target_activity, launcher_activity=None):
     acts = [(s, es, ee) for tag, s, es, ee in elems if tag == "activity"]
     filters = [(s, es, ee) for tag, s, es, ee in elems if tag == "intent-filter"]
 
+    # 幂等：底包可能已经是搬过入口的包（现在用自己出的包当底包），此时直接原样返回
+    for fs, fes, fee in filters:
+        has_main = any(tag == "action" and fs <= s < fee
+                       and name_of(s) == "android.intent.action.MAIN"
+                       for tag, s, es, ee in elems)
+        if has_main and any(s < fs < ee and name_of(s) == target_activity
+                            for s, es, ee in acts):
+            return data
+
     chosen = None
     for fs, fes, fee in filters:
         has_main = any(tag == "action" and fs <= s < fee

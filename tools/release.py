@@ -18,7 +18,25 @@ ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
 BUILD = ROOT / "build"
 DESKTOP = Path(os.environ.get("DSH_DESKTOP") or r"C:\Users\20905\Desktop")
-ORIG_APK = Path(os.environ.get("DSH_ORIG_APK") or r"C:\Users\20905\Downloads\dszmnq_247960.apk")
+
+
+def _base_apk():
+    """打底包：环境变量 > build/base.apk（冻结底包）> 原版下载路径。
+
+    原版 v1.0.6 已经不再分发，现在用一个自己出过的、验证稳定的版本冻结成
+    build/base.apk 当底包；每次出包都从这一份派生，保证不会逐版漂移。
+    """
+    env = os.environ.get("DSH_ORIG_APK")
+    if env:
+        return Path(env)
+    for c in (ROOT / "build" / "base.apk",
+              Path(r"C:\Users\20905\Downloads\dszmnq_247960.apk")):
+        if c.exists():
+            return c
+    return ROOT / "build" / "base.apk"
+
+
+ORIG_APK = _base_apk()
 VERSION_FILE = BUILD / "version.json"
 KEYSTORE = BUILD / "debug.keystore"
 

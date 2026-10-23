@@ -24,8 +24,26 @@ import build_apk  # noqa: E402  复用：ORIG_APK / xxtea_decrypt / PATCH_MODULE
 APK_ASSETS = ROOT / "apk" / "assets" / "assets"
 APK_SRC = ROOT / "apk" / "assets" / "src"
 WEB = ROOT / "pc" / "web"
+WEB_TEMPLATE = ROOT / "pc" / "web-template"
 
 RE_REGISTER = re.compile(r'System\.register\("chunks:///_virtual/([^"]+)"')
+
+
+def resolve_baseline() -> Path:
+    """定位原版打底 APK。优先官方原版路径；被并行会话动过时回落到 build/vanilla_signed.apk
+    （昨晚从原版重打包，co_dep 为 56 节点原版内容，已验证）。"""
+    cands = [
+        build_apk.ORIG_APK,
+        Path(r"C:\Users\20905\Desktop\dszmnq_247960.apk"),
+        ROOT / "build" / "vanilla_signed.apk",
+    ]
+    for apk in cands:
+        if apk.exists():
+            if apk != build_apk.ORIG_APK:
+                print("[baseline] %s 不存在，回落 %s" % (build_apk.ORIG_APK, apk))
+                build_apk.ORIG_APK = apk
+            return apk
+    raise SystemExit("找不到任何可用的原版基线 APK")
 
 
 def build_main_plain() -> str:
@@ -85,7 +103,28 @@ def write_bundle_scripts():
         cfg["encrypted"] = False
         cfg_path.write_text(json.dumps(cfg, ensure_ascii=False, separators=(",", ":")),
                             encoding="utf-8", newline="")
+        # 自建 web 引擎按旧文件名请求 bundle 配置（安卓原生层会自动回落，web 不会）→ 双名并存
+        shutil.copy2(cfg_path, dst_dir / "config.json")
         print("[bundle] %-10s index.js %8d bytes (encrypted:%s->False)" % (bundle, size, was))
+
+
+def ccon_fixup():
+    """带 .bin 的 pack 是 ccon 形态：给 .json 补一份 .ccon 副本，web 引擎按 .ccon 请求时不 404。
+
+    （.ccon 的下载逻辑 = json 头 + 同名 .bin 块，与包内 json+bin 数据同构，直接改名即可。）
+    """
+    count = 0
+    for bundle in ("internal", "resources", "main"):
+        imp = WEB / "assets" / bundle / "import"
+        if not imp.is_dir():
+            continue
+        for binf in imp.rglob("*.bin"):
+            js = binf.with_suffix(".json")
+            cc_ = binf.with_suffix(".ccon")
+            if js.is_file() and not cc_.exists():
+                shutil.copy2(js, cc_)
+                count += 1
+    print("[ccon] pack 副本 %d 个" % count)
 
 
 def patch_settings(platform: str):
@@ -103,32 +142,57 @@ def patch_settings(platform: str):
 
 
 def copy_boot_files():
-    """启动配套（与平台无关的部分）：application.js / system.bundle.js / import-map.json。"""
-    for name in ("application.js", "system.bundle.js", "import-map.json"):
-        src = APK_SRC / name
-        if src.is_file():
-            shutil.copy2(src, WEB / name)
-            print("[boot] %s copied" % name)
+    """启动配套。网页目录布局（对齐 CC web 构建标准 + 本项目实测适配）：
+      index.html / index.js / style.css / application.js        ← 根
+      src/{settings.json, polyfills.bundle.js, system.bundle.js,
+           named-register.min.js, import-map.json}
+      cocos-js/cc.js                                             ← web 引擎（install_engine 放入）
+      chunks/bundle.js                                           ← 游戏自带 appsdk chunk
+
+    关键件来源（浏览器实测通过的组合，勿随意更换）：
+      system.bundle.js = SystemJS 6.14.2 完整版 + named-register 扩展
+        （安卓包里的原生裁剪版不支持 import map；官方编辑器预览版需要 require 全局，均不可用）
+      polyfills.bundle.js = 官方 3.6.3 编辑器版
+    """
+    for name in ("index.html", "index.js", "style.css"):
+        shutil.copy2(WEB_TEMPLATE / name, WEB / name)
+    for name in ("polyfills.bundle.js", "system.bundle.js", "named-register.min.js"):
+        shutil.copy2(WEB_TEMPLATE / name, WEB / "src" / name)
+    shutil.copy2(APK_SRC / "application.js", WEB / "application.js")
+    shutil.copy2(APK_SRC / "import-map.json", WEB / "src" / "import-map.json")
+    # settings.json 的 scriptPackages 引用 ../chunks/bundle.js（相对 src/ → 根/chunks/）
+    (WEB / "chunks").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(APK_SRC / "chunks" / "bundle.js", WEB / "chunks" / "bundle.js")
+    print("[boot] 模板/systemjs/polyfills/application/import-map/chunks 已就位")
 
 
 def install_engine(engine_dir: Path):
-    """把引擎候选目录里的 web 引擎文件拷到 pc/web（跳过候选目录里游戏自己的 assets）。"""
-    copied = 0
-    for item in engine_dir.rglob("*"):
-        if item.is_dir():
-            continue
-        rel = item.relative_to(engine_dir)
-        # 候选目录里可能带样例游戏自己的 bundle / settings —— 这些我们不用
-        parts = rel.parts
-        if parts and parts[0] in ("assets",):
-            continue
-        if rel.name in ("settings.json",):
-            continue
-        dst = WEB / rel
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(item, dst)
-        copied += 1
-    print("[engine] %d files copied from %s" % (copied, engine_dir))
+    """把 web 引擎 cc.js 放到 pc/web/cocos-js/cc.js。
+
+    engine_dir 支持三种形态：
+      - 自建产物：cocos-engine 构建输出（bin/dev/cc-min/cc.js）
+      - 候选仓库根：cc.js 或 cocos-js/cc.js 直接在目录下
+      - 候选子目录：递归找最大的 cc.js
+    """
+    candidates = [
+        engine_dir / "cc.js",
+        engine_dir / "cocos-js" / "cc.js",
+        engine_dir / "bin" / "dev" / "cc-min" / "cc.js",
+    ]
+    cc = next((p for p in candidates if p.is_file()), None)
+    if cc is None:
+        found = [p for p in engine_dir.rglob("cc.js") if p.is_file()]
+        if not found:
+            raise SystemExit("引擎目录里找不到 cc.js: %s" % engine_dir)
+        cc = max(found, key=lambda p: p.stat().st_size)
+    dst = WEB / "cocos-js" / "cc.js"
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(cc, dst)
+    head = dst.read_text(encoding="utf-8", errors="ignore")[:200000]
+    import re as _re
+    m = _re.search(r"3\.[0-9]+\.[0-9]+", head)
+    print("[engine] cc.js <- %s (%.1f MB, 版本标记≈%s)"
+          % (cc, cc.stat().st_size / 1048576, m.group(0) if m else "?"))
 
 
 def main():
@@ -138,11 +202,13 @@ def main():
     args = ap.parse_args()
 
     # 与 release.py 相同顺序的源码预处理（幂等：已注入则跳过）
+    resolve_baseline()
     build_apk.fix_co_dep_pic()
     items = build_apk.build_payload()
     build_apk.inject_icons(items)
 
     write_bundle_scripts()
+    ccon_fixup()
     patch_settings(args.platform)
     copy_boot_files()
     if args.engine:

@@ -347,7 +347,7 @@ System.register("chunks:///_virtual/ZGGSOfficeFx.ts", ["cc", "./ZGGSDirectorated
         }
         gsRichLbltxtgrs(t, s, e = null) {
           var n = this.zgRichStrgrst(t, e);
-          n ? (n.node.active = !0, n.string = s, n.node.active = !1, n.node.active = !0) : this.log("找不到组件YMRichText " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+          n ? (n.node.active = !0, n.string = s) : this.log("找不到组件YMRichText " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
         }
         gsNodeScalegnss(t, s, e, n = null) {
           var i = this.zgNodegzt(t, n);

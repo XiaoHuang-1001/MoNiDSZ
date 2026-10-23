@@ -140,7 +140,19 @@ def _blocks(text):
     return spans
 
 
-ORIG_APK = Path(os.environ.get("DSH_ORIG_APK") or r"C:\Users\20905\Downloads\dszmnq_247960.apk")
+def _base_apk():
+    """打底包：环境变量 > build/base.apk（冻结底包）> 原版下载路径"""
+    env = os.environ.get("DSH_ORIG_APK")
+    if env:
+        return Path(env)
+    for c in (ROOT / "build" / "base.apk",
+              Path(r"C:\Users\20905\Downloads\dszmnq_247960.apk")):
+        if c.exists():
+            return c
+    return ROOT / "build" / "base.apk"
+
+
+ORIG_APK = _base_apk()
 
 
 def original_pics():

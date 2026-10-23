@@ -452,6 +452,19 @@ System.register("chunks:///_virtual/VHBgshiMap.ts", ["cc", "./ZGGSOfficeFx.ts", 
         update(t) {
           let i = this.fatherIcon.position;
           this.txtIcon.setPosition(i), this.txtIconP.setPosition(i), this.node_qipao.setPosition(i);
+          // 性能补丁：名字标签的显隐只跟"地图动了没有"有关。
+          // 原版每帧扫一遍全部图标，每个图标都要拼 "ANode:xxx" 字符串 + new Rect，
+          // 静止时纯属空转（实测主界面常驻 144% CPU 的一部分就来自这里）。
+          // 现在：位置/缩放没变就 4 次/秒兜底一次，拖动时依然逐帧判定，视觉无差别。
+          let sc = this.scaleNode ? this.scaleNode.scale.x : 1,
+            lp = this._cullPos;
+          this._cullDt = (this._cullDt || 0) + (t || 0);
+          if (lp && lp.x === i.x && lp.y === i.y && lp.s === sc && this._cullDt < .25) return;
+          this._cullDt = 0, this._cullPos = {
+            x: i.x,
+            y: i.y,
+            s: sc
+          };
           for (const t in this.iconObjs) {
             let i = this.iconObjs[t];
             if (1 == i.active) {
