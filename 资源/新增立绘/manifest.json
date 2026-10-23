@@ -1,0 +1,387 @@
+[
+  {
+    "id": 1500,
+    "name": "分公司一",
+    "step": 2,
+    "branch": 1,
+    "file": "1500aa.png"
+  },
+  {
+    "id": 1600,
+    "name": "分公司二",
+    "step": 2,
+    "branch": 2,
+    "file": "1600aa.png"
+  },
+  {
+    "id": 2101,
+    "name": "法务部",
+    "step": 2,
+    "branch": 2,
+    "file": "2101aa.png"
+  },
+  {
+    "id": 2102,
+    "name": "行政部",
+    "step": 2,
+    "branch": 2,
+    "file": "2102aa.png"
+  },
+  {
+    "id": 2103,
+    "name": "业务部",
+    "step": 2,
+    "branch": 2,
+    "file": "2103aa.png"
+  },
+  {
+    "id": 2104,
+    "name": "财务部",
+    "step": 2,
+    "branch": 2,
+    "file": "2104aa.png"
+  },
+  {
+    "id": 2105,
+    "name": "安保部",
+    "step": 2,
+    "branch": 2,
+    "file": "2105aa.png"
+  },
+  {
+    "id": 2106,
+    "name": "公关部",
+    "step": 2,
+    "branch": 2,
+    "file": "2106aa.png"
+  },
+  {
+    "id": 2201,
+    "name": "合规部",
+    "step": 3,
+    "branch": 2,
+    "file": "2201aa.png"
+  },
+  {
+    "id": 2202,
+    "name": "审计部",
+    "step": 3,
+    "branch": 2,
+    "file": "2202aa.png"
+  },
+  {
+    "id": 2203,
+    "name": "知识产权部",
+    "step": 3,
+    "branch": 2,
+    "file": "2203aa.png"
+  },
+  {
+    "id": 2204,
+    "name": "人力资源部",
+    "step": 3,
+    "branch": 2,
+    "file": "2204aa.png"
+  },
+  {
+    "id": 2205,
+    "name": "监察部",
+    "step": 3,
+    "branch": 2,
+    "file": "2205aa.png"
+  },
+  {
+    "id": 2206,
+    "name": "后勤部",
+    "step": 3,
+    "branch": 2,
+    "file": "2206aa.png"
+  },
+  {
+    "id": 2207,
+    "name": "产品部",
+    "step": 3,
+    "branch": 2,
+    "file": "2207aa.png"
+  },
+  {
+    "id": 2208,
+    "name": "技术部",
+    "step": 3,
+    "branch": 2,
+    "file": "2208aa.png"
+  },
+  {
+    "id": 2209,
+    "name": "市场部",
+    "step": 3,
+    "branch": 2,
+    "file": "2209aa.png"
+  },
+  {
+    "id": 2210,
+    "name": "薪酬管理部",
+    "step": 3,
+    "branch": 2,
+    "file": "2210aa.png"
+  },
+  {
+    "id": 2211,
+    "name": "资产部",
+    "step": 3,
+    "branch": 2,
+    "file": "2211aa.png"
+  },
+  {
+    "id": 2212,
+    "name": "资金部",
+    "step": 3,
+    "branch": 2,
+    "file": "2212aa.png"
+  },
+  {
+    "id": 2301,
+    "name": "采购部",
+    "step": 4,
+    "branch": 2,
+    "file": "2301aa.png"
+  },
+  {
+    "id": 2302,
+    "name": "食宿部",
+    "step": 4,
+    "branch": 2,
+    "file": "2302aa.png"
+  },
+  {
+    "id": 2303,
+    "name": "物资部",
+    "step": 4,
+    "branch": 2,
+    "file": "2303aa.png"
+  },
+  {
+    "id": 2304,
+    "name": "策划部",
+    "step": 4,
+    "branch": 2,
+    "file": "2304aa.png"
+  },
+  {
+    "id": 2305,
+    "name": "设计部",
+    "step": 4,
+    "branch": 2,
+    "file": "2305aa.png"
+  },
+  {
+    "id": 2306,
+    "name": "算法部",
+    "step": 4,
+    "branch": 2,
+    "file": "2306aa.png"
+  },
+  {
+    "id": 2307,
+    "name": "运营部",
+    "step": 4,
+    "branch": 2,
+    "file": "2307aa.png"
+  },
+  {
+    "id": 2308,
+    "name": "研发部",
+    "step": 4,
+    "branch": 2,
+    "file": "2308aa.png"
+  },
+  {
+    "id": 2309,
+    "name": "测试部",
+    "step": 4,
+    "branch": 2,
+    "file": "2309aa.png"
+  },
+  {
+    "id": 2310,
+    "name": "运维部",
+    "step": 4,
+    "branch": 2,
+    "file": "2310aa.png"
+  },
+  {
+    "id": 2311,
+    "name": "销售部",
+    "step": 4,
+    "branch": 2,
+    "file": "2311aa.png"
+  },
+  {
+    "id": 2312,
+    "name": "宣传部",
+    "step": 4,
+    "branch": 2,
+    "file": "2312aa.png"
+  },
+  {
+    "id": 2313,
+    "name": "调研部",
+    "step": 4,
+    "branch": 2,
+    "file": "2313aa.png"
+  },
+  {
+    "id": 2314,
+    "name": "客服部",
+    "step": 4,
+    "branch": 2,
+    "file": "2314aa.png"
+  },
+  {
+    "id": 2401,
+    "name": "策划1组",
+    "step": 5,
+    "branch": 2,
+    "file": "2401aa.png"
+  },
+  {
+    "id": 2402,
+    "name": "策划2组",
+    "step": 5,
+    "branch": 2,
+    "file": "2402aa.png"
+  },
+  {
+    "id": 2403,
+    "name": "策划3组",
+    "step": 5,
+    "branch": 2,
+    "file": "2403aa.png"
+  },
+  {
+    "id": 2404,
+    "name": "设计1组",
+    "step": 5,
+    "branch": 2,
+    "file": "2404aa.png"
+  },
+  {
+    "id": 2405,
+    "name": "设计2组",
+    "step": 5,
+    "branch": 2,
+    "file": "2405aa.png"
+  },
+  {
+    "id": 2406,
+    "name": "设计3组",
+    "step": 5,
+    "branch": 2,
+    "file": "2406aa.png"
+  },
+  {
+    "id": 2407,
+    "name": "运营1组",
+    "step": 5,
+    "branch": 2,
+    "file": "2407aa.png"
+  },
+  {
+    "id": 2408,
+    "name": "运营2组",
+    "step": 5,
+    "branch": 2,
+    "file": "2408aa.png"
+  },
+  {
+    "id": 2409,
+    "name": "运营3组",
+    "step": 5,
+    "branch": 2,
+    "file": "2409aa.png"
+  },
+  {
+    "id": 2410,
+    "name": "研发1组",
+    "step": 5,
+    "branch": 2,
+    "file": "2410aa.png"
+  },
+  {
+    "id": 2411,
+    "name": "研发2组",
+    "step": 5,
+    "branch": 2,
+    "file": "2411aa.png"
+  },
+  {
+    "id": 2412,
+    "name": "研发3组",
+    "step": 5,
+    "branch": 2,
+    "file": "2412aa.png"
+  },
+  {
+    "id": 2413,
+    "name": "测试1组",
+    "step": 5,
+    "branch": 2,
+    "file": "2413aa.png"
+  },
+  {
+    "id": 2414,
+    "name": "测试2组",
+    "step": 5,
+    "branch": 2,
+    "file": "2414aa.png"
+  },
+  {
+    "id": 2415,
+    "name": "测试3组",
+    "step": 5,
+    "branch": 2,
+    "file": "2415aa.png"
+  },
+  {
+    "id": 2416,
+    "name": "销售1组",
+    "step": 5,
+    "branch": 2,
+    "file": "2416aa.png"
+  },
+  {
+    "id": 2417,
+    "name": "销售2组",
+    "step": 5,
+    "branch": 2,
+    "file": "2417aa.png"
+  },
+  {
+    "id": 2418,
+    "name": "销售3组",
+    "step": 5,
+    "branch": 2,
+    "file": "2418aa.png"
+  },
+  {
+    "id": 2419,
+    "name": "客服1组",
+    "step": 5,
+    "branch": 2,
+    "file": "2419aa.png"
+  },
+  {
+    "id": 2420,
+    "name": "客服2组",
+    "step": 5,
+    "branch": 2,
+    "file": "2420aa.png"
+  },
+  {
+    "id": 2421,
+    "name": "客服3组",
+    "step": 5,
+    "branch": 2,
+    "file": "2421aa.png"
+  }
+]

@@ -140,7 +140,7 @@ def _blocks(text):
     return spans
 
 
-ORIG_APK = Path(r"C:\Users\20905\Downloads\dszmnq_247960.apk")
+ORIG_APK = Path(os.environ.get("DSH_ORIG_APK") or r"C:\Users\20905\Downloads\dszmnq_247960.apk")
 
 
 def original_pics():

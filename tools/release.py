@@ -17,13 +17,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
 BUILD = ROOT / "build"
-DESKTOP = Path(r"C:\Users\20905\Desktop")
-ORIG_APK = Path(r"C:\Users\20905\Downloads\dszmnq_247960.apk")
+DESKTOP = Path(os.environ.get("DSH_DESKTOP") or r"C:\Users\20905\Desktop")
+ORIG_APK = Path(os.environ.get("DSH_ORIG_APK") or r"C:\Users\20905\Downloads\dszmnq_247960.apk")
 VERSION_FILE = BUILD / "version.json"
 KEYSTORE = BUILD / "debug.keystore"
 
-BUILD_TOOLS = Path(r"C:\Program Files (x86)\Android\android-sdk\build-tools\36.0.0")
-JAVA_HOME = Path(r"C:\Program Files\Android\openjdk\jdk-21.0.8")
+BUILD_TOOLS = Path(os.environ.get("DSH_BUILD_TOOLS")
+                   or r"C:\Program Files (x86)\Android\android-sdk\build-tools\36.0.0")
+JAVA_HOME = Path(os.environ.get("DSH_JAVA_HOME") or os.environ.get("JAVA_HOME")
+                 or r"C:\Program Files\Android\openjdk\jdk-21.0.8")
 PY = sys.executable
 
 sys.path.insert(0, str(TOOLS))

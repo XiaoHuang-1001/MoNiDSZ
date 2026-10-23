@@ -69,6 +69,24 @@ def collect():
         p = ROOT / name
         if p.exists():
             out[name] = p
+
+    # 原版解包资源：图片/音频/配置/Android res。
+    # lib/ 与 *.dex 排除，因为 libcocos.so 单文件 194MB，超过 GitHub 100MB 单文件限制。
+    apk = ROOT / "apk"
+    if apk.is_dir():
+        for p in sorted(apk.rglob("*")):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(ROOT).as_posix()
+            if rel.startswith("apk/lib/") or p.suffix.lower() == ".dex":
+                continue
+            out[rel] = p
+
+    res = ROOT / "资源"
+    if res.is_dir():
+        for p in sorted(res.rglob("*")):
+            if p.is_file():
+                out["资源/" + p.relative_to(res).as_posix()] = p
     return out
 
 

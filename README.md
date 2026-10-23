@@ -73,6 +73,8 @@ MoNiDSZ/
 │   ├── emulator_debug.ps1  # 雷电模拟器一键自测
 │   ├── push_github.py      # 本机无 git 时增量推送源码到 GitHub
 │   └── ...                 # 若干一次性探针/修复脚本
+├── apk/                    # 原版解包：图片/音频/配置/res（lib 与 dex 见第六节）
+├── 资源/                    # 常用资源单独一份（含 55 张新增立绘）
 └── docs/
     ├── 董事长模拟器-最大架构图-v1.1.37.png
     ├── 董事长模拟器-最大架构图-v1.1.37.md
@@ -128,7 +130,7 @@ $py = "C:\Users\20905\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 - 仓库：`https://github.com/XiaoHuang-1001/MoNiDSZ`（私有）
 - 凭据：优先 `GITHUB_TOKEN` 环境变量；否则读 Windows 凭据管理器里 `git:https://github.com`（GCM 存的 token）。token 不打印、不落盘
-- 入库白名单：`源码/modules/**`、`源码/*.md`、`tools/*`（按扩展名）、`docs/**`、`README.md`、`.gitignore`
+- 入库白名单：`源码/modules/**`、`源码/*.md`、`tools/*`（按扩展名）、`docs/**`、`apk/**`（除 `lib/` 与 `*.dex`）、`资源/**`、`README.md`、`.gitignore`
 - 远端多出来、本地已删除的文件会自动 `sha: null` 删除，提交说明缺省为「同步源码 N 个文件」
 
 ---
@@ -146,20 +148,43 @@ $py = "C:\Users\20905\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 ---
 
-## 六、不包含的内容
+## 六、资源与底包
 
-| 未入库 | 原因 |
+仓库里已经带全**解包后的图片/音频/配置资源**（2972 个文件，44.9 MB），clone 下来不用再补：
+
+| 目录 | 内容 |
 | --- | --- |
-| 原版 APK（`dszmnq_247960.apk`） | 第三方版权，需自备 |
-| `apk/`、`资源/`（解包后的立绘/音频/图片） | 同上，且体积 470+ MB |
-| `build/`（编译产物、签名后的 APK） | 构建产物，每次出包重新生成 |
-| `debug.keystore` | 签名密钥不入库 |
-| `源码/engine/cocos-js/`、`main.dec.js`、`index.pretty.js` | Cocos 引擎与整包解密中间产物，可本地重新生成 |
+| `apk/assets/assets/` | Cocos 运行时资源：`main/index.jsc`（加密的游戏逻辑）、`resources/`（配置表 + 贴图 + 音频 + 预制体）、`src/` 引擎 JS、`models/` |
+| `apk/res/` | Android 资源 1336 个（图标、布局 AXML、drawable-*） |
+| `apk/AndroidManifest.xml`、`apk/resources.arsc` | 二进制清单与资源表（`axml.py` 改的就是这两个） |
+| `资源/` | 单独拎出来的一份：`import/` 210、`native/` 44、`新增立绘/` 55 张部门立绘、`apk-info.json` |
 
-补齐方式：把原版 APK 放到 `build/` 下并运行 `tools/pack_original.py`，再按 `tools/build_apk.py` 的
-`ORIG_APK` 路径约定调整即可。
+只有两样没进 git —— **GitHub 单文件 100 MB 硬限制**放不下，任何普通 git 仓库都一样：
+
+| 未入库 | 大小 | 补法 |
+| --- | --- | --- |
+| `apk/lib/`（4 个 ABI 的 .so，`libcocos.so` 单个 194 MB） | 406 MB | 从 Release 的底包 APK 里解出来 |
+| `apk/classes*.dex`（广告/统计 SDK，与游戏逻辑无关） | 50 MB | 同上 |
+
+底包 APK（原版 v1.0.6，151.5 MB）挂在 Release：
+
+```
+https://github.com/XiaoHuang-1001/MoNiDSZ/releases/download/v1.0.6-base/dszmnq_247960.apk
+```
+
+下载后放任意位置，用环境变量指过去即可（不设就走默认路径，换机器才需要设）：
+
+| 环境变量 | 默认值 | 用途 |
+| --- | --- | --- |
+| `DSH_ORIG_APK` | `C:\Users\20905\Downloads\dszmnq_247960.apk` | 打底的原版 APK |
+| `DSH_DESKTOP` | `C:\Users\20905\Desktop` | 成品 APK 投放目录 |
+| `DSH_BUILD_TOOLS` | `C:\Program Files (x86)\Android\android-sdk\build-tools\36.0.0` | zipalign / apksigner / aapt2 |
+| `DSH_JAVA_HOME` | `JAVA_HOME` → `C:\Program Files\Android\openjdk\jdk-21.0.8` | JDK 21 |
+
+其余不入库：`build/`（构建产物）、`debug.keystore`（签名密钥）、`源码/engine/cocos-js/`、
+`main.dec.js`、`index.pretty.js`（引擎与整包解密中间产物，`tools/decrypt_jsc.js` + `split_modules.mjs` 可重新生成）。
 
 ## 七、声明
 
 本项目为**个人学习用的单机改造**，仅修改本地资源与逻辑，不含任何联网、内购、广告或账号功能。
-原版游戏及其美术资源版权归原作者所有，本仓库不分发原版程序与素材。
+原版游戏及其美术资源版权归原作者所有。

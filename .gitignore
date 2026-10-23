@@ -5,9 +5,12 @@ build/
 *.idsig
 *.aab
 
-# 解包出来的原版资源（版权 + 体积）
-apk/
-资源/
+# 原生库与 dex：libcocos.so 单个 194 MB，超过 GitHub 100 MB 单文件硬限制，
+# 从 Release 的底包 APK 里解出来即可（见 README 第六节）
+apk/lib/
+apk/*.dex
+
+# PC 端移植实验，与安卓出包无关
 pc/
 
 # 依赖
