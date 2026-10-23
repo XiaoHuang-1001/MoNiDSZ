@@ -1,0 +1,493 @@
+System.register("chunks:///_virtual/PGsWork.ts", ["cc", "./ZGGSConfigco.ts", "./ZGGSOfficeFx.ts", "./ZGGSClockTime.ts", "./WGongshiGuiding.ts", "./ZGGSRedHdian.ts", "./ZGGSEnumArr.ts", "./WFeishu.ts", "./VHBgshi.ts", "./WKaiye1.ts", "./WChengjiu.ts", "./minFunc.ts"], (function(e) {
+  "use strict";
+  var i, o, t, n, s, d, r, a, l, c, h, g, f, I, u, b, m, p, k, S, G, w, _, A;
+  return {
+    setters: [function(e) {
+      i = e.cclegacy, o = e._decorator, t = e.sys, n = e.find
+    }, function(e) {
+      s = e.ZGGSConfigco
+    }, function(e) {
+      d = e.ZGGSOfficeFx, r = e.gs_boss, a = e.gs_computer, l = e.gs_sql, c = e.gs_tabpr, h = e.gs_phone, g = e.gs_sound, f = e.gs_www, I = e.gs_bmsg, u = e.gs_btxt
+    }, function(e) {
+      b = e.ZGGSClockTime
+    }, function(e) {
+      m = e.WGongshiGuiding
+    }, function(e) {
+      p = e.ZGGSRedHdian
+    }, function(e) {
+      k = e.ZGGSEnumArr
+    }, function(e) {
+      S = e.WFeishu
+    }, function(e) {
+      G = e.VHBgshi
+    }, function(e) {
+      w = e.WKaiye1
+    }, function(e) {
+      _ = e.WChengjiu
+    }, function(e) {
+      A = e.minFunc
+    }],
+    execute: function() {
+      var z, v;
+      i._RF.push({}, "705089EYptOipPZyLjfNptv", "PGsWork", void 0);
+      const {
+        ccclass: P,
+        property: j
+      } = o;
+      e("PGsWork", P("PGsWork")(((v = class e extends d {
+        constructor(...e) {
+          super(...e), this.canInto = !1
+        }
+        pohuiPage() {
+          r.bossDieWin(e, 2)
+        }
+        load(e) {
+          this.log("登录界面"), a.loadJian(), p.loadBlack(), this.gsButtongbs("GTTu/btn_even", this.checkAllName.bind(this));
+          let i = Date.now(),
+            o = t.localStorage.getItem("ZGSGSSID");
+          o || (t.localStorage.setItem("ZGSGSSID", i + ""), o = t.localStorage.getItem("ZGSGSSID"));
+          let n = t.localStorage.getItem("ZGSGSAUID");
+          if (n || (t.localStorage.setItem("ZGSGSAUID", i + "#" + l.config.qudao), n = t.localStorage.getItem("ZGSGSAUID")), console.log(o, n, "标识符id,uid"), l.config.uid = n, 1 == s.sdkCp) this.gsSprstHtByUIs("shiling", "8");
+          else if (2 == s.sdkCp) {
+            let e = A.getslAge();
+            e > 0 && this.gsSprstHtByUIs("shiling", `${e}`)
+          }
+          if (this.gsButtongbs("shiling", function() {
+              console.log("点击适龄提示"), 1 == s.sdkCp ? r.bossPshow(m) : 2 == s.sdkCp && A.gotoAge()
+            }.bind(this)), this.gsButtongbs("GTTu/btn_even2", function() {
+              this.xindeStart()
+            }.bind(this)), r.bossPshow(S), s.gsClview) return this.zgNodegzt("GTTu/btn_even3").active = !1, this.zgNodegzt("GTTu/btn_even2").active = !1, this.zgNodegzt("GTTu/btn_even").active = !1, this.checkAllName()
+        }
+        checkAllName() {
+          if (l.base.wxNew) return this.paotiao();
+          {
+            let e = l.workInfo1.objs,
+              i = [];
+            for (let o in e) i.push(e[o]);
+            let o = c.co_name.objs,
+              t = e => {
+                if (!(e < i.length)) return l.base.wxNew = 1, this.paotiao();
+                {
+                  let n = i[e],
+                    s = n.name;
+                  console.log("old", s), A.checkIlllegal(s, (i => {
+                    if (!i) {
+                      let e = n.sex,
+                        i = o[e],
+                        t = a.sjNumArrgs2(0, i.length - 1, 2),
+                        s = i[t[0]],
+                        d = i[t[0]];
+                      n.name = s.name1 + d.name2
+                    }
+                    t(e + 1)
+                  }), !0)
+                }
+              },
+              n = l.base.name;
+            console.log("公司old", n), n.length > 0 ? A.checkIlllegal(n, (e => {
+              if (!e) {
+                let e = c.co_cname.zgTableKey(1);
+                l.base.name = e.name
+              }
+              t(0)
+            }), !0) : t(0)
+          }
+        }
+        paotiao() {
+          h.loadJian();
+          let e = Date.now(),
+            i = t.localStorage.getItem("ZGSGSSID"),
+            o = t.localStorage.getItem("ZGSGSAUID");
+          if (o || (t.localStorage.setItem("ZGSGSAUID", e + "#" + l.config.qudao), o = t.localStorage.getItem("ZGSGSAUID")), console.log(i, o, "标识符id,uid"), l.config.uid = o, 1 == s.sdkCp) {
+            let e = a.getDanjiInfo();
+            console.log(e, "渠道表"), l.config.companyName = e.gongsi, l.config.strmp = e.shezhi, l.config.loadingTxt = e.jindutiao, l.chahuahui.open = e.pingfen, l.chahuahui.openComment = e.pinglun
+          } else s.bhaopz = "", l.chahuahui.open = 0, l.chahuahui.openComment = 0;
+          r.bossGshow(b), this.zgNodegzt("GTTu/btn_even3").active = !1, this.zgNodegzt("GTTu/btn_even2").active = !1, this.zgNodegzt("GTTu/btn_even").active = !1, this.zgNodegzt("spr_jindu").active = !0, this.attainSet(), this.gameSetTest(), this.setGameSet();
+          var d = 0,
+            c = [
+              [_, 2, "Canvas/window/WChengjiu", 20]
+            ],
+            m = 0,
+            p = function() {
+              if (o = c[d]) 0 == --o[3] ? 0 == o[1] ? r.bossGshow(o[0]) : 1 == o[1] ? r.bossUshow(o[0]) : 2 == o[1] ? r.bossWshow(o[0]) : 3 == o[1] && r.bossPshow(o[0]) : (s = n(o[2])) && (k = s).com && !k.com.wait && (k.active = !1, d += 1);
+              else
+                for (var e = 0; e < c.length; e++) {
+                  if (s = n((o = c[e])[2]))
+                    if ((k = s).com && !k.com.wait) {
+                      k.active = !1;
+                      break
+                    }
+                }
+              let i = 0;
+              if (i = m < (d + 1) / (c.length + 1) ? .005 : .001, m < .7 && m + i > .7 && this.getPeizhi0514(), (m += i) >= 1) {
+                if (m = 1, !n("Canvas/ground/ZGGSClockTime")) return console.error("找不到倒计时系统大厅"), this.unscheduleAllCallbacks(), void this.schedule(p, 1);
+                if (!n("Canvas/ui/VHBgshi")) return console.error("找不到大厅按钮"), this.unscheduleAllCallbacks(), void this.schedule(p, 1);
+                for (e = 0; e < c.length; e++) {
+                  var o, s, k;
+                  if (s = n((o = c[e])[2]))(k = s).com && k.active && (k.active = !1)
+                }
+                if (l.base.gmPack && !l.base.PackKey) return;
+                n("Canvas/ground/ZGGSClockTime").getComponent(b) && (this.unscheduleAllCallbacks(), this.scheduleOnce(function() {
+                  if (g.playBg("vhallBg"), n("Canvas/btn_even").active = !1, l.config.guideId < 1e3) {
+                    l.base.stopGame = !0, r.bossWshow(w);
+                    let e = Date.now(),
+                      i = t.localStorage.getItem("ZGSGSAUID");
+                    i || (t.localStorage.setItem("ZGSGSAUID", e + "#" + l.config.qudao), i = t.localStorage.getItem("ZGSGSAUID")), console.log(i, "uid"), l.config.uid = i;
+                    let o = t.localStorage.getItem("ZGSGSSID");
+                    f.blUpPlayerData(l.config.uid, o, 1), f.blInitPlayerData(o, "0", l.config.uid)
+                  }
+                  n("Canvas/ground/ZGGSClockTime").getComponent(b).startGame(), l.config.guideId < 1e3 ? this.scheduleOnce(function() {
+                    this.pohuiPage()
+                  }.bind(this), .3) : this.scheduleOnce(function() {
+                    l.base.gmPack ? (l.base.PackKey && (h.loadJian(), a.afterInsetWokrer(), I.send(2002)), this.scheduleOnce((() => {
+                      this.pohuiPage()
+                    }), 2)) : this.pohuiPage()
+                  }.bind(this), .1)
+                }.bind(this), .5))
+              }
+              this.zgSpriteFargst("spr_jindu/spr_jindu").fillRange = m, this.gsTxtLblgs("node_jindu/YMLabel-004", u.gsNorStringType(14) + `${Math.floor(100*m)}%(${(50*m).toFixed(2)}/50mb)`)
+            }.bind(this);
+          this.scheduleOnce(function() {
+            l.config.guideId
+          }.bind(this), 2), this.scheduleOnce(function() {
+            this.schedule(p, 0)
+          }.bind(this), .5), this.scheduleOnce(function() {
+            r.bossUshow(G)
+          }.bind(this), .3)
+        }
+        attainSet() {
+          f.refreshZGSID(), f.initPlayerData();
+          this.schedule((function() {
+            this.gsTxtLblgs("node_jindu/YMLabel-006", s.bhaopz), f.initPlayerData2(), this.gsRichLbltxtgrs("node_jindu/YMLabel-005", `<color=#000000>${l.config.loadingTxt}</c>`)
+          }), 1)
+        }
+        showTipLoad() {
+          let e = u.gsStringJDInfo(),
+            i = Math.floor(Math.random() * e.length);
+          this.gsTxtLblgs("node_jindu/YMLabel-003", e[i]);
+          let o = 0;
+          this.schedule(function() {
+            if (--o < 0) {
+              let i = Math.floor(Math.random() * e.length);
+              this.gsTxtLblgs("node_jindu/YMLabel-003", e[i])
+            }
+          }.bind(this), 3), this.gsButtongbs("spr_bg", function() {
+            let i = Math.floor(Math.random() * e.length);
+            this.gsTxtLblgs("node_jindu/YMLabel-003", e[i]), o = 1
+          }.bind(this))
+        }
+        gameSetTest() {
+          0 == l.shangzhanInfo.lv && (a.initNextShangzhanInfo(5001), a.initShangzhanInfo())
+        }
+        setGameSet() {
+          if (!l.findObjById("combmInfo", 1001)) {
+            l.createNewObj2("combmInfo", 1001).depId = 100100
+          }
+          c.co_device.values;
+          let e = c.co_dep.values;
+          for (let i = 0; i < e.length; i++) {
+            let o = e[i];
+            if ((1 == o.step || 2 == o.step) && !l.findObjById("shebeiInfo", o.id)) {
+              let e = l.createNewObj2("shebeiInfo", o.id);
+              1001 == o.id && (e.lock = 1)
+            }
+          }
+          for (let e = 1; e <= 5; e++) {
+            let i = l.findObjById("zichanInfo", e);
+            i || (i = l.createNewObj2("zichanInfo", e))
+          }
+          let i = c.co_market.values;
+          for (let e = 0; e < i.length; e++) {
+            let o = i[e];
+            if (!l.findObjById("shichangInfo", o.id)) {
+              let e = l.createNewObj2("shichangInfo", o.id);
+              6101 == o.id && (e.lock = 1)
+            }
+          }
+          let o = c.co_check.values;
+          for (let e = 0; e < o.length; e++) {
+            let i = o[e];
+            if (!l.findObjById("kaoheInfo", i.id)) {
+              let e = l.createNewObj2("kaoheInfo", i.id);
+              1 == i.is_get && (e.lock = 1)
+            }
+          }
+          let t = l.config.guideId;
+          t > 1e3 && t < 1100 ? l.config.guideId = 1100 : t > 1100 && t < 1200 ? l.config.guideId = 1200 : t > 1200 && t < 1300 && (l.config.guideId = 1300);
+          let n = l.config.qudao;
+          const s = c.co_huodong.objs[n];
+          if (s && s.length > 0 ? l.huodong.info = s : l.huodong.info = [], a.initTimeNumCd(), l.base.gmPack && !l.base.PackKey) {
+            l.config.guideId = 1300, l.base.diamond = 1e5, l.base.gold = 1e10, l.base.jinka = 1e5;
+            let e = {
+              1001: {
+                id: 1001,
+                depId: 100100,
+                comArr: [1101, 1102, 1103, 1104, 1105, 1106],
+                workerId: 0
+              },
+              1002: {
+                id: 1002,
+                depId: 100200,
+                comArr: [],
+                workerId: 0
+              },
+              1003: {
+                id: 1003,
+                depId: 100300,
+                comArr: [],
+                workerId: 0
+              },
+              1101: {
+                id: 1101,
+                depId: 110102,
+                comArr: [1201, 1202, 1203],
+                workerId: 0
+              },
+              1102: {
+                id: 1102,
+                depId: 110209,
+                comArr: [1204, 1205, 1206],
+                workerId: 0
+              },
+              1103: {
+                id: 1103,
+                depId: 110309,
+                comArr: [1207, 1208, 1209],
+                workerId: 0
+              },
+              1104: {
+                id: 1104,
+                depId: 110402,
+                comArr: [1210, 1211, 1212],
+                workerId: 0
+              },
+              1105: {
+                id: 1105,
+                depId: 110500,
+                comArr: [],
+                workerId: 110501
+              },
+              1106: {
+                id: 1106,
+                depId: 110600,
+                comArr: [],
+                workerId: 110601
+              },
+              1201: {
+                id: 1201,
+                depId: 110103,
+                comArr: [],
+                workerId: 110106
+              },
+              1202: {
+                id: 1202,
+                depId: 110104,
+                comArr: [],
+                workerId: 110107
+              },
+              1203: {
+                id: 1203,
+                depId: 110105,
+                comArr: [],
+                workerId: 110108
+              },
+              1204: {
+                id: 1204,
+                depId: 110203,
+                comArr: [],
+                workerId: 110206
+              },
+              1205: {
+                id: 1205,
+                depId: 110204,
+                comArr: [],
+                workerId: 110207
+              },
+              1206: {
+                id: 1206,
+                depId: 110212,
+                comArr: [1301, 1302, 1303],
+                workerId: 0
+              },
+              1207: {
+                id: 1207,
+                depId: 110310,
+                comArr: [1304, 1305, 1306, 1307],
+                workerId: 0
+              },
+              1208: {
+                id: 1208,
+                depId: 110311,
+                comArr: [1308, 1309, 1310]
+              },
+              1209: {
+                id: 1209,
+                depId: 110312,
+                comArr: [1311, 1312, 1313, 1314],
+                workerId: 0
+              },
+              1210: {
+                id: 1210,
+                depId: 110403,
+                comArr: [],
+                workerId: 110406
+              },
+              1211: {
+                id: 1211,
+                depId: 110404,
+                comArr: [],
+                workerId: 110407
+              },
+              1212: {
+                id: 1212,
+                depId: 110405,
+                comArr: [],
+                workerId: 110408
+              },
+              1301: {
+                id: 1301,
+                depId: 110213,
+                comArr: [],
+                workerId: 110218
+              },
+              1302: {
+                id: 1302,
+                depId: 110214,
+                comArr: [],
+                workerId: 110219
+              },
+              1303: {
+                id: 1303,
+                depId: 110215,
+                comArr: [],
+                workerId: 110220
+              },
+              1304: {
+                id: 1304,
+                depId: 110313,
+                comArr: [],
+                workerId: 110324
+              },
+              1305: {
+                id: 1305,
+                depId: 110314,
+                comArr: [],
+                workerId: 110325
+              },
+              1306: {
+                id: 1306,
+                depId: 110315,
+                comArr: [],
+                workerId: 110326
+              },
+              1307: {
+                id: 1307,
+                depId: 110316,
+                comArr: [],
+                workerId: 110327
+              },
+              1308: {
+                id: 1308,
+                depId: 110317,
+                comArr: [],
+                workerId: 110328
+              },
+              1309: {
+                id: 1309,
+                depId: 110318,
+                comArr: [],
+                workerId: 110329
+              },
+              1310: {
+                id: 1310,
+                depId: 110319,
+                comArr: [],
+                workerId: 110330
+              },
+              1311: {
+                id: 1311,
+                depId: 110320,
+                comArr: [],
+                workerId: 110331
+              },
+              1312: {
+                id: 1312,
+                depId: 110321,
+                comArr: [],
+                workerId: 110332
+              },
+              1313: {
+                id: 1313,
+                depId: 110322,
+                comArr: [],
+                workerId: 110333
+              },
+              1314: {
+                id: 1314,
+                depId: 110323,
+                comArr: [],
+                workerId: 110333
+              }
+            };
+            for (let i in e) {
+              let o = e[i],
+                t = l.findObjById("combmInfo", o.id);
+              if (t || (t = l.createNewObj2("combmInfo", o.id)), t.depId = o.depId, 1002 != o.id && 1003 != o.id && (t.comArr = o.comArr), 1001 == o.id) k.initDsz();
+              else if (1002 == o.id) t.workArr = [0, 0, 0, 0], k.initYg(3, 100200);
+              else if (1003 == o.id) t.workArr = [0, 0, 0, 0, 0, 0, 0, 0], k.initYg(4, 100300);
+              else if (k.initYg(2, o.depId), t.comArr.length <= 0)
+                for (let e = 0; e < 3; e++) k.initYg(1, o.workerId)
+            }
+            l.base.name = "梦想成真科技有限公司", l.base.PackKey = 1
+          }
+          let d = l.workInfo1.objs;
+          for (let e in d) {
+            let i = d[e];
+            if (i.shichangPos[0]) {
+              -1 == l.findObjById("shichangInfo", i.shichangPos[0]).num.indexOf(i.id) && (i.shichangPos[0] = 0)
+            }
+            if (i.kaohePos) {
+              -1 == l.findObjById("kaoheInfo", i.kaohePos).num.indexOf(i.id) && (i.kaohePos = 0)
+            }
+          }
+          let r = c.co_benefits.values;
+          for (let e = 0; e < r.length; e++) {
+            let i = l.findObjById("fuliInfo", r[e].id);
+            i || (i = l.createNewObj2("fuliInfo", r[e].id))
+          }
+        }
+        xindeStart() {
+          l.clsData(), l.load();
+          let e = f.zgNumByQudaoType();
+          l.config.qudao = e
+        }
+        getPeizhi0514() {
+          if (l.peizhi0514.first) return console.log(JSON.stringify(l.peizhi0514), "获取配置0514_1"), this.canInto = !0, void this.dealPeizhi0514();
+          if (l.peizhi0514.first = 1, 2 == s.sdkCp) {
+            if (t.platform === t.Platform.IOS || t.platform === t.Platform.DESKTOP_BROWSER) {
+              let e = A.getpeizhi1("bs_speed");
+              console.log("ab包获得的bs_speed参数1", e, "start"), e = e || "0", e *= 1, console.log("ab包获得的bs_speed参数1", e, "end"), 1 == e && (l.peizhi0514.speed = 1);
+              let i = A.getpeizhi1("bs_video");
+              console.log("ab包获得的bs_video参数1", i, "start"), i = i || "0", i *= 1, console.log("ab包获得的bs_video参数1", i, "end"), 1 == i && (l.peizhi0514.video = 1);
+              let o = A.getpeizhi1("bs_battle");
+              console.log("ab包获得的bs_battle参数1", o, "start"), o = o || "0", o *= 1, console.log("ab包获得的bs_battle参数1", o, "end"), 1 == o && (l.peizhi0514.battle = 1);
+              let t = A.getpeizhi1("bs_cost");
+              console.log("ab包获得的bs_cost参数1", t, "start"), t = t || "0_0_0_0_0";
+              let n = t.split("_"),
+                s = 1 * n[0],
+                d = 1 * n[1],
+                r = 1 * n[2],
+                a = 1 * n[3],
+                c = 1 * n[4];
+              1 == s && (l.peizhi0514.equip = 1), 1 == d && (l.peizhi0514.shichang = 1), 1 == r && (l.peizhi0514.zichan = 1), 1 == a && (l.peizhi0514.kaohe = 1), 1 == c && (l.peizhi0514.offline = 1), console.log("ab包获得的bs_cost参数1", t, s, d, r, a, c, "end"), this.dealPeizhi0514()
+            } else t.platform === t.Platform.ANDROID && (l.peizhi0514.speed = 1, l.peizhi0514.video = 1, l.peizhi0514.battle = 1, l.peizhi0514.equip = 1, l.peizhi0514.shichang = 1, l.peizhi0514.zichan = 1, l.peizhi0514.kaohe = 1, l.peizhi0514.offline = 1, this.dealPeizhi0514());
+            this.canInto = !0
+          } else this.canInto = !0, this.dealPeizhi0514();
+          console.log(JSON.stringify(l.peizhi0514), "获取配置0514_2")
+        }
+        dealPeizhi0514() {}
+      }).m_name = "PGsWork", z = v)) || z);
+      i._RF.pop()
+    }
+  }
+}));

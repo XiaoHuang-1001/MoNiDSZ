@@ -1,0 +1,33 @@
+# 构建产物
+build/
+*.apk
+*.apks
+*.idsig
+*.aab
+
+# 解包出来的原版资源（版权 + 体积）
+apk/
+资源/
+pc/
+
+# 依赖
+node_modules/
+__pycache__/
+*.pyc
+.pnpm-store/
+
+# 解密/美化中间产物
+源码/main.dec.js
+源码/index.pretty.js
+源码/engine/
+
+# 签名密钥
+*.keystore
+*.jks
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

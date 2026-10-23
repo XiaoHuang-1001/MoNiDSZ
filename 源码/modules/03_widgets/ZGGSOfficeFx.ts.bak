@@ -1,0 +1,534 @@
+System.register("chunks:///_virtual/ZGGSOfficeFx.ts", ["cc", "./ZGGSDirectorated.ts", "./ZGGSComPreLoad.ts", "./ZGGSMsgboxc.ts", "./ZGGSComponentcom.ts", "./ZGGSConlog.ts", "./ZGGSTablePrint.ts", "./ZGGSComputerFun.ts", "./ZGGSHttpsWww.ts", "./ZGGSBookTxt.ts", "./ZGGSBoxMsg.ts", "./ZGGSSoundMusic.ts", "./ZGGSSqlMyg.ts"], (function(t) {
+  "use strict";
+  var s, e, n, i, o, l, a, g, r, h, d, c, u, m, p, b, f, z, S, v, G, x, y, T;
+  return {
+    setters: [function(t) {
+      s = t.cclegacy, e = t.find, n = t.UITransform, i = t.Color, o = t.Vec3, l = t.tween, a = t.UIOpacity, g = t.Tween, r = t.error, h = t.instantiate, d = t.bezier
+    }, function(t) {
+      c = t.ZGGSDirectorated
+    }, function(t) {
+      u = t.ZGGSComPreLoad
+    }, function(t) {
+      m = t.ZGGSMsgboxc
+    }, function(t) {
+      p = t.ZGGSComponentcom
+    }, function(t) {
+      b = t.ZGGSConlog
+    }, function(t) {
+      f = t.ZGGSTablePrint
+    }, function(t) {
+      z = t.ZGGSPhonein, S = t.ZGGSComputerFun
+    }, function(t) {
+      v = t.ZGGSHttpsWww
+    }, function(t) {
+      G = t.ZGGSBookTxt
+    }, function(t) {
+      x = t.ZGGSBoxMsg
+    }, function(t) {
+      y = t.ZGGSSound
+    }, function(t) {
+      T = t.ZGGSSqlMyg
+    }],
+    execute: function() {
+      s._RF.push({}, "4bd1bPn1aFId4KyL+0rOq23", "ZGGSOfficeFx", void 0);
+      let _ = {},
+        P = {},
+        w = {};
+      t("ZGGSOfficeFx", class extends p {
+        constructor(...t) {
+          super(...t), this.wait = !1, this.m_name = void 0
+        }
+        get screen() {
+          return e("Canvas").getComponent(n).contentSize
+        }
+        gsEmpGonghao(t, s, e = null) {
+          this.gsTxtLblgs(t, N.idToGonghao(s), e)
+        }
+        gsTxtGradelbl(t, s, e, n = null) {
+          this.gsTxtLblgs(t, e, n), this.gsTxtColorLblgs2(t, s, n)
+        }
+        gsTxtGradelbl2(t, s, e, n = null) {
+          this.gsTxtLblgs(t, e, n), this.gsTxtColorLblgs3(t, s, n)
+        }
+        gsTxtGradelbl0(t, s, e, n = null) {
+          this.gsTxtLblgs(t, e, n), this.gsTxtColorLblgs1(t, s, n)
+        }
+        gsTxtStrbyNums(t, s, e, n = null) {
+          let i = L.gsStringByParam(s, N.gsNumValueShow(e));
+          this.gsTxtLblgs(t, i, n)
+        }
+        gsTxtStrbyStrs(t, s, e, n = null) {
+          let i = L.gsStringByParam(s, e);
+          this.gsTxtLblgs(t, i, n)
+        }
+        gsSprstByIcons(t, s, e = null) {
+          this.gsSprFramesst(t, "icon/" + s, e)
+        }
+        gsSprstByUIs(t, s, e = null) {
+          this.gsSprFramesst(t, "ui/" + s, e)
+        }
+        gsWorkFace(t, s, e = null) {
+          let n = A.co_emote.zgTableKey(s);
+          n && this.gsSprHtsst(t, n.img, e)
+        }
+        gsSprstHtByUIs(t, s, e = null) {
+          this.gsSprHtsst1(t, "ui", s, e)
+        }
+        gsSprstHtByList(t, s, e, n = null) {
+          this.gsSprHtsst1(t, s, e, n)
+        }
+        gsWorkPic(t, s, e = null) {
+          var n = this.zgNodegzt(t, e);
+          this.gsSprHtsst("icon", s.sprId, n), this.gsTxtLblgs("node_2/YMLabel1", s.name, n);
+          const i = A.co_job.zgTableKey(s.jobId);
+          this.zgNodegzt("lbl_info", n) && (this.zgNodegzt("lbl_info", n).active = 1 != s.id), i && (this.gsWorkTypePic2("lbl_info", i.grade, n), this.gsTxtGradelbl("lbl_info/YMLabel1", i.grade, i.name, n));
+          const o = A.co_post.zgTableKey(s.postId);
+          if (o) {
+            this.gsWorkTypePic1("node_1", o.grade, n), this.gsTxtGradelbl("node_1/YMLabel1", o.grade, o.name, n), this.zgNodegzt("yuan", n) && this.gsWorkTypePic3("yuan", `${o.grade}`, n)
+          }
+          let l = this.zgNodegzt("lbl_info1", n);
+          l && this.gsTxtLblgs("YMLabel2", N.idToGonghao(s.id), l)
+        }
+        gsWorkTypePic1(t, s, e = null) {
+          this.gsSprHtsst(t, "gsp0" + s, e)
+        }
+        gsWorkTypePic2(t, s, e = null) {
+          this.gsSprHtsst(t, "gsz0" + s, e)
+        }
+        gsWorkTypePic3(t, s, e = null) {
+          this.gsSprHtsst(t, "gsy0" + s, e)
+        }
+        gsNeedConfigs(t, s, e = null) {
+          var n = this.zgNodegzt(t, e),
+            i = this.zgLableglt("YMLabel", n),
+            o = this.zgSpriteFargst("icon", n);
+          let l = s[1] ? N.gsNumValueShow(s[1]) : L.gsNorStringType(1);
+          4 == s[0] && s[1] && s[1] >= 0 && (l = "+" + l), i.string = l, o.node.active = s[1], s[1] > 0 && this.gsSprstHtByList("icon", "qian", L.gsAwardImg(s[0]), n)
+        }
+        gsNeedConfigs2(t, s, e = null) {
+          var n = this.zgNodegzt(t, e),
+            i = this.zgLableglt("YMLabel", n),
+            o = this.zgSpriteFargst("icon", n);
+          i.string = s[1] ? N.gsNumValueShow(s[1]) : L.gsNorStringType(1), o.node.active = s[1], s[1] > 0 && this.gsSprstHtByList("icon", "qian", L.gsAwardImg2(s[0]), n)
+        }
+        gsBtnArrStatests(t) {
+          for (var s = t.parent, e = 0; e < s.children.length; e++) {
+            var n = s.children[e],
+              i = this.zgBtngbt(n);
+            i && (i.interactable = n != t, n.getChildByName("kai").active = n == t, n.getChildByName("guan").active = n != t)
+          }
+        }
+        zgPathGts(t) {
+          if ("string" == typeof t) return t;
+          if (t && t.name) {
+            var s = t.name,
+              e = function(t) {
+                (t = t.parent) && (s = t.name + "/" + s, e(t))
+              };
+            e(t);
+            var n, i = s.indexOf("anvas");
+            i = (n = s.slice(i + 6, s.length)).indexOf("/"), i = (n = n.slice(i + 1, s.length)).indexOf("/");
+            return n = n.slice(i + 1, s.length)
+          }
+        }
+        zgNodegzt(t, s = null) {
+          if (s) return s[e = "ANode:" + t] || (s[e] = c.zgNodegzt(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t;
+          var e = "ANode:" + t;
+          return this.node[e] && this.node[e].parent || (this.node[e] = c.zgNodegzt(t, s || this.node)), this.node[e]
+        }
+        zgLableglt(t, s = null) {
+          if (s) return s[e = "ALabel:" + t] || (s[e] = c.getLabel(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "ALabel:" + t.name] || (t[e] = c.getLabel(t, s || this.node)), t[e];
+          var e = "ALabel:" + t;
+          return this.node[e] || (this.node[e] = c.getLabel(t, s || this.node)), this.node[e]
+        }
+        zgRichStrgrst(t, s = null) {
+          if (s) return s[e = "ARichText:" + t] || (s[e] = c.getRichText(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "ARichText:" + t.name] || (t[e] = c.getRichText(t, s || this.node)), t[e];
+          var e = "ARichText:" + t;
+          return this.node[e] || (this.node[e] = c.getRichText(t, s || this.node)), this.node[e]
+        }
+        zgSpriteFargst(t, s = null) {
+          if (s) return s[e = "ASprite:" + t] || (s[e] = c.getSprite(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "ASprite:" + t.name] || (t[e] = c.getSprite(t, s || this.node)), t[e];
+          var e = "ASprite:" + t;
+          return this.node[e] || (this.node[e] = c.getSprite(t, s || this.node)), this.node[e]
+        }
+        zgBtngbt(t, s = null) {
+          if (s) return s[e = "AButton:" + t] || (s[e] = c.getButton(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "AButton:" + t.name] || (t[e] = c.getButton(t, s || this.node)), t[e];
+          var e = "AButton:" + t;
+          return this.node[e] || (this.node[e] = c.getButton(t, s || this.node)), this.node[e]
+        }
+        zgScrollViewgsvt(t, s = null) {
+          if (s) return s[e = "AScrollView:" + t] || (s[e] = c.getScrollView(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "AScrollView:" + t.name] || (t[e] = c.getScrollView(t, s || this.node)), t[e];
+          var e = "AScrollView:" + t;
+          return this.node[e] || (this.node[e] = c.getScrollView(t, s || this.node)), this.node[e]
+        }
+        zgUITransformguift(t, s = null) {
+          if (s) return s[e = "AUITransform:" + t] || (s[e] = c.getUITransform(t || this.node, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "AUITransform:" + t.name] || (t[e] = c.getUITransform(t || this.node, s || this.node)), t[e];
+          var e = "AUITransform:" + t;
+          return this.node[e] || (this.node[e] = c.getUITransform(t || this.node, s || this.node)), this.node[e]
+        }
+        zgLayoutgltts(t, s = null) {
+          if (s) return s[e = "ALayout:" + t] || (s[e] = c.getLayout(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "ALayout:" + t.name] || (t[e] = c.getLayout(t, s || this.node)), t[e];
+          var e = "ALayout:" + t;
+          return this.node[e] || (this.node[e] = c.getLayout(t, s || this.node)), this.node[e]
+        }
+        zgEditBoxgebts(t, s = null) {
+          if (s) return s[e = "AEditBox:" + t] || (s[e] = c.getEditBox(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "AEditBox:" + t.name] || (t[e] = c.getEditBox(t, s || this.node)), t[e];
+          var e = "AEditBox:" + t;
+          return this.node[e] || (this.node[e] = c.getEditBox(t, s || this.node)), this.node[e]
+        }
+        zgTogglegtts(t, s = null) {
+          if (s) return s[e = "AToggle:" + t] || (s[e] = c.getToggle(t, s || this.node)), s[e];
+          if ("string" != typeof t) return t[e = "AToggle:" + t.name] || (t[e] = c.getToggle(t, s || this.node)), t[e];
+          var e = "AToggle:" + t;
+          return this.node[e] || (this.node[e] = c.getToggle(t, s || this.node)), this.node[e]
+        }
+        gsButtonStategbs(t, s, e = null) {
+          var n = this.zgBtngbt(t, e);
+          n ? 0 == s ? (n.interactable = !1, n.unuse()) : 1 == s ? (n.interactable = !0, n.use()) : 2 == s ? (n.interactable = !0, n.unuse()) : 3 == s && (n.interactable = !1) : this.log("找不到组件YMButton " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsButtongbs(t, s, e = null, n = !0) {
+          var i = this.zgBtngbt(t, e);
+          i ? (i.clickEvents = [], i.callback(function(t, e) {
+            s(t, e), 5 != e && n && F.play("button"), i.clickEvent2 && (i.clickEvent2(), i.clickEvent2 = null)
+          }.bind(this))) : this.log("找不到组件YMButton " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsButtongbsx(t, s = null) {
+          var e = this.zgBtngbt(t, s);
+          e ? e.callbackHandler({
+            target: e.node
+          }, 5) : this.log("找不到组件YMButton " + this.zgPathGts(s || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsSprFramesst(t, s, e = null) {
+          var n = this.zgSpriteFargst(t, e);
+          if (n) {
+            if (n.pngPath == s && s) return;
+            n.pngPath = s
+          } else this.log("找不到组件YMSprite " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t));
+          n && n.node && n.node.parent && s ? u.loadSpriteFrame("textures/" + s + "/spriteFrame", function(t) {
+            n && n.node && n.node.parent && t ? n.spriteFrame = t : this.log(`找不到图片${s} ` + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(n.node))
+          }.bind(this)) : n && (n.spriteFrame = null)
+        }
+        gsSprHtsst(t, s, e = null) {
+          var n = this.zgSpriteFargst(t, e);
+          if (n) {
+            if (n.pngPath == s && s) return;
+            n.pngPath = s
+          } else this.log("找不到组件YMSprite " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t));
+          P[s] ? n.spriteFrame = P[s] : n && s ? u.loadSpriteFrame(`textures/rew/${s}`, function(i) {
+            i && n ? (n.spriteFrame = i, P[s] = i) : this.log(`找不到图片${s} ` + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+          }.bind(this)) : n && (n.spriteFrame = null)
+        }
+        gsSprHtsst1(t, s, e, n = null) {
+          var i = this.zgSpriteFargst(t, n);
+          if (i) {
+            if (i.pngPath == e && e) return;
+            i.pngPath = e
+          } else this.log("找不到组件YMSprite " + this.zgPathGts(n || this.node) + "/" + this.zgPathGts(t));
+          w[e] ? i.spriteFrame = w[e] : i && e ? u.loadSpriteFrame(`textures/${s}/${e}`, function(s) {
+            s && i ? (i.spriteFrame = s, w[e] = s) : this.log(`找不到图片${e} ` + this.zgPathGts(n || this.node) + "/" + this.zgPathGts(t))
+          }.bind(this)) : i && (i.spriteFrame = null)
+        }
+        gsSprHtreset() {
+          w = {}, P = {}
+        }
+        gsGraySprgsgs(t, s, e = null) {
+          var n = this.zgSpriteFargst(t, e);
+          n ? n.grayscale = s : this.log("找不到组件YMSprite " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsTxtLblgs(t, s, e = null) {
+          var n = this.zgLableglt(t, e);
+          n ? n.node.nowstr != s && (n.node.nowstr = s, n.string = s + "") : this.log("找不到组件YMLabel " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsLblCororgst1(t, s, e, n = null) {
+          var o = [e, [230, 88, 88]][s ? 0 : 1],
+            l = this.zgLableglt(t, n);
+          l ? l.color = new i(o[0], o[1], o[2]) : this.log("找不到组件YMLabel " + this.zgPathGts(n || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsLblCororgst2(t, s, e, n = null) {
+          var o = [e, [100, 197, 92]][s ? 0 : 1],
+            l = this.zgLableglt(t, n);
+          l ? l.color = new i(o[0], o[1], o[2]) : this.log("找不到组件YMLabel " + this.zgPathGts(n || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsLblCororgst3(t, s, e = null) {
+          var n = [
+              [100, 197, 92],
+              [230, 88, 88]
+            ][s ? 0 : 1],
+            o = this.zgLableglt(t, e);
+          o ? o.color = new i(n[0], n[1], n[2]) : this.log("找不到组件YMLabel " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsTxtColorLblgs1(t, s, e = null) {
+          var n = this.zgLableglt(t, e);
+          n ? n.color = new i(s[0], s[1], s[2]) : this.log("找不到组件YMLabel " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsTxtColorLblgs2(t, s, e = null) {
+          let n = L.gsColorByGradesg(s);
+          var o = this.zgLableglt(t, e);
+          o ? o.color = new i(n[0], n[1], n[2]) : this.log("找不到组件YMLabel " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsTxtColorLblgs3(t, s, e = null) {
+          let n = L.gsColorByGradesg2(s);
+          var o = this.zgLableglt(t, e);
+          o ? o.color = new i(n[0], n[1], n[2]) : this.log("找不到组件YMLabel " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsRichLbltxtgrs(t, s, e = null) {
+          var n = this.zgRichStrgrst(t, e);
+          n ? (n.node.active = !0, n.string = s, n.node.active = !1, n.node.active = !0) : this.log("找不到组件YMRichText " + this.zgPathGts(e || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsNodeScalegnss(t, s, e, n = null) {
+          var i = this.zgNodegzt(t, n);
+          i ? (s = s || i.scale.x, e = e || i.scale.y, i.setScale(s, e)) : this.log("找不到节点setScale " + this.zgPathGts(n || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsTransUIBoxgts(t, s, e, n = null) {
+          var i = this.zgUITransformguift(t, n);
+          i ? (s = null != s ? s : i.contentSize.width, e = null != e ? e : i.contentSize.height, i.setContentSize(s, e)) : this.log("找不到组件 " + this.zgPathGts(n || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsNodePositgps(t, s, e, n = null) {
+          var i = this.zgNodegzt(t, n);
+          i ? (s = null != s ? s : i.position.x, e = null != e ? e : i.position.y, i.setPosition(new o(s, e, i.position.z))) : this.log("找不到节点setPosition " + this.zgPathGts(n || this.node) + "/" + this.zgPathGts(t))
+        }
+        gsNodeBigSmallgns(t, s = null) {
+          var e = this.zgUITransformguift(t, s);
+          if (e && !e.sch) {
+            e.sch = !0;
+            var n = .01;
+            e.unscheduleAllCallbacks(), e.schedule(function() {
+              e.node.scale.x > 1.1 ? n = -.01 : e.node.scale.x < .9 && (n = .01);
+              var t = e.node.scale.x + n;
+              e.node.setScale(t, t, t)
+            }.bind(this), 0)
+          }
+        }
+        gsNodeBigSmallgOnens(t, s = null, e) {
+          var n = this.zgUITransformguift(t, s);
+          if (n) {
+            let t = n.node.scale.x;
+            if (n.node.isBig) return;
+            n.node.isBig = !0;
+            let s = n.node.scale.x,
+              i = 0;
+            n.unscheduleAllCallbacks(), n.schedule(function() {
+              s += .01, s < t + e / 2 ? i = n.node.scale.x + .01 : s < t + e ? i = n.node.scale.x - .01 : (i = t, n.unscheduleAllCallbacks(), n.node.isBig = !1);
+              let o = Math.abs(i);
+              n.node.setScale(i, o, o)
+            }.bind(this), 0)
+          }
+        }
+        gsNodeBigSmallgOnensFun(t, s, e = null) {
+          var i = t.getComponent(n);
+          if (i) {
+            let t = i.node.scale.x;
+            if (i.node.isBig) return;
+            i.node.isBig = !0;
+            let n = i.node.scale.x,
+              o = 0;
+            i.unscheduleAllCallbacks(), i.schedule(function() {
+              n += .01, n < t + s / 2 ? o = i.node.scale.x + .01 : n < t + s ? o = i.node.scale.x - .01 : (o = t, i.unscheduleAllCallbacks(), i.node.isBig = !1, e && e());
+              let l = Math.abs(o);
+              i.node.setScale(o, l, l)
+            }.bind(this), 0)
+          }
+        }
+        gsTransInitUIgts(t, s = null) {
+          var e = this.zgUITransformguift(t, s);
+          e && e.sch && (e.sch = !1, e.node.setScale(1, 1, 1), e.unscheduleAllCallbacks())
+        }
+        gsWorldposgws(t) {
+          var s = t.worldPosition.clone();
+          return s.x -= this.screen.width / 2, s.y -= this.screen.height / 2, s.z = 0, s
+        }
+        gsScheduleStnode(t, s, e = 0, n = !1, i = null) {
+          var o = this.zgUITransformguift(t, i);
+          o && (o.unscheduleAllCallbacks(), n ? o.scheduleOnce(function() {
+            o.unscheduleAllCallbacks(), s()
+          }.bind(this), e) : (s(), o.schedule(function() {
+            s()
+          }.bind(this), e)))
+        }
+        gsStopSchedulegs(t, s = null) {
+          var e = this.zgUITransformguift(t, s);
+          e && e.unscheduleAllCallbacks()
+        }
+        bezier(t, s, e, n = null) {
+          e.z = e.z || 0;
+          var i = this.zgNodegzt(t, n),
+            a = o.distance(i.position, e) / 500;
+          return l(i.position).parallel(l().to(a, {
+            x: e.x
+          }, {
+            progress: function(t, s, n, i) {
+              return d(t, s + (e.x1 || 0), s + (e.x2 || 0), s, i)
+            },
+            easing: "smooth",
+            onUpdate: () => {
+              i.setPosition(i.position)
+            }
+          }), l().to(a, {
+            y: e.y
+          }, {
+            progress: function(t, s, n, i) {
+              return d(t, s + (e.y1 || 0), s + (e.y2 || 0), s, i)
+            },
+            easing: "smooth",
+            onUpdate: () => {
+              i.setPosition(i.position)
+            }
+          })).call((() => {
+            s && s()
+          })).start(), i
+        }
+        gsOpacityByNodegs(t, s = null) {
+          var e = this.zgNodegzt(t, s),
+            n = e.getComponent(a);
+          n || (n = e.addComponent(a)), n.opacity = 0, g.stopAllByTarget(n), l(n).delay(.1).to(0, {
+            opacity: 255
+          }).delay(1).to(1, {
+            opacity: 0
+          }).start()
+        }
+        gsOpacityByNodegs2(t, s = null) {
+          var e = this.zgNodegzt(t, s),
+            n = e.getComponent(a);
+          n || (n = e.addComponent(a)), n.opacity = 0
+        }
+        twoBezierxx(t, s, e, n) {
+          let i = (1 - t) * (1 - t) * s.x + 2 * t * (1 - t) * e.x + t * t * n.x,
+            l = (1 - t) * (1 - t) * s.y + 2 * t * (1 - t) * e.y + t * t * n.y;
+          return new o(i, l, 0)
+        }
+        parentload() {}
+        parentInit(...t) {}
+        load(...t) {}
+        init(...t) {}
+        receiveMessage(...t) {
+          var s = t[0][0];
+          this.receive(s[0], s[1], s[2], s[3], s[4], s[5])
+        }
+        receive(t, s, e, n, i, o) {}
+        onDestroy() {
+          if (_[this.node.name]) {
+            let t = !1,
+              s = e("Canvas/window").children;
+            for (let e of s)
+              if (e != this.node && 1 == e.active) {
+                t = !0;
+                break
+              } t || I.send(2100, !1)
+          }
+          console.error(this.node.name, "关闭页面")
+        }
+        log(...t) {
+          b.log([this, t[0], t[1]])
+        }
+      });
+      let B = t("gs_sql", T);
+      class L extends G {}
+      t("gs_btxt", L);
+      let C = t("gs_phone", z),
+        N = t("gs_computer", S);
+      t("gs_www", class extends v {});
+      let A = t("gs_tabpr", f);
+      class I extends x {}
+      t("gs_bmsg", I);
+      class F extends y {}
+      t("gs_sound", F);
+      class k {
+        static zggsInitView(t) {
+          var s = 0;
+          this.m_funs = [], this.m_com = t, this.budaFang = {
+            VHBgshi: 1,
+            PGsWork: 1,
+            WShiyong: 1,
+            WWenhao: 1
+          }, t.unscheduleAllCallbacks(), t.schedule(function() {
+            s < this.m_funs.length ? this.m_funs[s]() ? this.m_funs.splice(s, 1) : s += 1 : s = 0
+          }.bind(this), .3), this.m_even = e("Canvas/btn_even"), this.m_even2 = e("Canvas/btn_even2"), this.m_even2.active = !1, this.n_evenBtn = e("Canvas/btn_even3"), this.n_evenBtn.active = !1
+        }
+        static bossScheduleArrput(t) {
+          this.m_funs.push(t)
+        }
+        static bossScheduleArrputOne(t, s) {
+          this.m_com.scheduleOnce(t, s)
+        }
+        static bossScheduleStopArr() {
+          this.m_com.unscheduleAllCallbacks()
+        }
+        static bossOpenWinshow(t, s, ...n) {
+          var i = s.m_name || s.name;
+          if (!s.m_name) throw r("m_name不存在");
+          let o = Date.now();
+          if (this.lastWinName == i && this.lastTime + 300 > o) console.log("2秒内打开同一个页面");
+          else {
+            if (this.lastWinName = i, this.lastTime = o, "string" == typeof t) {
+              var l = e("Canvas/" + t + "/" + i),
+                a = e("Canvas/" + t);
+              if (this.m_openName[i] && !(this.m_openName[i] < Date.now())) return console.log(`窗口${i}正在打开中，${a.name}`);
+              this.m_openName[i] = Date.now() + 2e3, this.m_even.active = !0, this.m_com.scheduleOnce(function() {
+                this.m_even.active = !1
+              }.bind(this), 2)
+            } else l = t.getChildByName(i);
+            if (l)
+              if (l.com) l.active ? (this.m_even.active = !1, this.m_openName[i] = 0, l.setSiblingIndex(this.m_zIndex++), console.log("打开窗口", i, n[0], "33"), l.com.parentInit(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5]), l.com.init(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5])) : (this.m_openName[i] = 0, this.m_even.active = !1, l.active = !0, l.setSiblingIndex(this.m_zIndex++), console.log("打开窗口", i, n[0], "44"), this.budaFang[i] || this.bossWinUp(l), l.com.parentInit(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5]), l.com.init(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5]));
+              else {
+                this.m_openName[i] = 0, this.m_even.active = !1;
+                a = "string" == typeof t ? e("Canvas/" + t) : t;
+                m.startBuild().SetBoxName(a, l, i), l.com = l.addComponent(s), l.setSiblingIndex(this.m_zIndex++), l.com.name = i, console.log("加载窗口"), l.com.parentload(), l.com.load(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5]), l.com.parentInit(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5]), l.com.init(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5])
+              }
+            else u.loadPrefab("prefab/" + i, function(o) {
+              if (this.m_openName[i] = 0, this.m_even.active = !1, o) {
+                var l = h(o),
+                  a = "string" == typeof t ? e("Canvas/" + t) : t;
+                m.startBuild().SetBoxName(a, l, i), l.com = l.addComponent(s), l.setSiblingIndex(this.m_zIndex++), l.com.name = i, console.log(`加载窗口${i}`), this.budaFang[i] || this.bossWinUp(l), l.com.parentload(), l.com.load(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5]), l.com.parentInit(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5]), l.com.init(n[0][0], n[0][1], n[0][2], n[0][3], n[0][4], n[0][5])
+              } else console.log("加载窗口失败", i)
+            }.bind(this))
+          }
+        }
+        static bossGshow(t, ...s) {
+          this.bossOpenWinshow("ground", t, s)
+        }
+        static bossUshow(t, ...s) {
+          this.bossOpenWinshow("ui", t, s)
+        }
+        static bossWshow(t, ...s) {
+          this.bossOpenWinshow("window", t, s)
+        }
+        static bossPshow(t, ...s) {
+          this.bossOpenWinshow("popup", t, s)
+        }
+        static bossDieWin(t, s) {
+          let e = t.m_name || t.name;
+          m.startBuild().guanbiView(e, s), I.send(2015)
+        }
+        static bossWinUp(t) {
+          B.cache.yindaoStop, t.getComponent(a).opacity = 0, t.setScale(.9, .9, .9), l(t.getComponent(a)).to(.15, {
+            opacity: 255
+          }).call((() => {})).start(), l(t).to(.1, {
+            scale: {
+              x: 1.1,
+              y: 1.1,
+              z: 1.1
+            }
+          }).call((() => {
+            l(t).to(.05, {
+              scale: {
+                x: 1,
+                y: 1,
+                z: 1
+              }
+            }).call((() => {})).start()
+          })).start()
+        }
+      }
+      t("gs_boss", k), k.m_funs = void 0, k.m_com = void 0, k.m_even = void 0, k.m_openName = {}, k.m_zIndex = 0, k.budaFang = {}, k.lastWinName = "", k.lastTime = 0, k.m_even2 = void 0, k.n_evenBtn = void 0, window.gs_sql = B, window.gs_boss = k, window.gs_tabpr = A, window.gs_computer = N, window.gs_phone = C, s._RF.pop()
+    }
+  }
+}));
