@@ -71,11 +71,13 @@ MoNiDSZ/
 │   ├── gen_arch_diagram.py # 从 co_dep/co_post 生成架构图
 │   ├── rebuild_market_provinces.py  # 34 省 308 市 + 等级表生成
 │   ├── emulator_debug.ps1  # 雷电模拟器一键自测
+│   ├── push_github.py      # 本机无 git 时增量推送源码到 GitHub
 │   └── ...                 # 若干一次性探针/修复脚本
 └── docs/
     ├── 董事长模拟器-最大架构图-v1.1.37.png
     ├── 董事长模拟器-最大架构图-v1.1.37.md
-    └── 出包规矩.md
+    ├── 出包规矩.md
+    └── 逆向说明-原版.md     # 原版 v1.0.6 的解包/解密说明
 ```
 
 ---
@@ -113,7 +115,25 @@ $py = "C:\Users\20905\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 ---
 
-## 四、自测
+## 四、推送到 GitHub
+
+本机没装 git，`tools/push_github.py` 直接走 GitHub Git Data API 做**增量**推送（只上传 sha 变化的文件）：
+
+```powershell
+$py = "C:\Users\20905\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe"
+& $py tools\push_github.py                     # 只提交有变化的文件
+& $py tools\push_github.py --dry-run           # 先看会动哪些文件，不提交
+& $py tools\push_github.py --message "feat: 1.1.38"
+```
+
+- 仓库：`https://github.com/XiaoHuang-1001/MoNiDSZ`（私有）
+- 凭据：优先 `GITHUB_TOKEN` 环境变量；否则读 Windows 凭据管理器里 `git:https://github.com`（GCM 存的 token）。token 不打印、不落盘
+- 入库白名单：`源码/modules/**`、`源码/*.md`、`tools/*`（按扩展名）、`docs/**`、`README.md`、`.gitignore`
+- 远端多出来、本地已删除的文件会自动 `sha: null` 删除，提交说明缺省为「同步源码 N 个文件」
+
+---
+
+## 五、自测
 
 ```powershell
 # 雷电模拟器 index 0，adb connect 127.0.0.1:5555
@@ -126,7 +146,7 @@ $py = "C:\Users\20905\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 
 ---
 
-## 五、不包含的内容
+## 六、不包含的内容
 
 | 未入库 | 原因 |
 | --- | --- |
@@ -139,7 +159,7 @@ $py = "C:\Users\20905\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\
 补齐方式：把原版 APK 放到 `build/` 下并运行 `tools/pack_original.py`，再按 `tools/build_apk.py` 的
 `ORIG_APK` 路径约定调整即可。
 
-## 六、声明
+## 七、声明
 
 本项目为**个人学习用的单机改造**，仅修改本地资源与逻辑，不含任何联网、内购、广告或账号功能。
 原版游戏及其美术资源版权归原作者所有，本仓库不分发原版程序与素材。
