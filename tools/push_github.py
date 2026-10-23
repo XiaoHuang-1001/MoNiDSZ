@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-"""把工程源码增量推送到 GitHub（本机没有 git 时用 GitHub Git Data API 代替）。
+"""把工程源码 + 解包资源增量推送到 GitHub。
+
+优先用 git（本机 PATH 里的 git，或随工具放好的便携版 MinGit），没有 git 才退回
+GitHub Git Data API —— API 每个文件一次请求，文件一多会撞 GitHub 的 secondary rate limit。
 
 用法：
-    python tools/push_github.py                 # 增量推送（只上传变化的文件）
+    python tools/push_github.py                 # 增量推送（只提交变化的文件）
     python tools/push_github.py --message "..."  # 自定义提交说明
     python tools/push_github.py --dry-run        # 只看会变动哪些文件
+    python tools/push_github.py --api            # 强制走 API 模式
 
 凭据：从 Windows 凭据管理器读取 `git:https://github.com`（Git Credential Manager 存的
       OAuth token / PAT），也支持环境变量 GITHUB_TOKEN 优先覆盖。token 不会打印、不落盘。
@@ -12,8 +16,10 @@
 仓库默认 XiaoHuang-1001/MoNiDSZ，可用 --owner/--repo/--branch 覆盖。
 
 入库规则（与 .gitignore 一致，白名单式）：
-    源码/modules/**、源码/*.md、tools/*（保留扩展名）、docs/**
-不包含：原版 APK、解包资源、build/、node_modules、keystore、解密中间产物。
+    源码/modules/**、源码/*.md、tools/*（保留扩展名）、docs/**、
+    apk/**（除 lib/ 与 *.dex）、资源/**
+不包含：原版 APK、apk/lib（单文件 194MB 超 GitHub 限制）、dex、build/、node_modules、
+        keystore、解密中间产物。
 """
 import argparse
 import base64
@@ -22,7 +28,10 @@ import ctypes.wintypes as wt
 import hashlib
 import json
 import os
+import shutil
+import subprocess
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -145,6 +154,64 @@ def api(path, method="GET", payload=None, token=None, tries=5):
     raise SystemExit(f"{method} {url} 失败")
 
 
+def find_git():
+    """找一个可用的 git：环境变量 → PATH → 便携版 MinGit → 系统安装版。"""
+    cands = [os.environ.get("DSH_GIT"), shutil.which("git"),
+             str(Path(os.environ.get("LOCALAPPDATA", "")) / "dsh-git" / "git" / "cmd" / "git.exe"),
+             r"C:\Program Files\Git\cmd\git.exe"]
+    for c in cands:
+        if c and Path(c).exists():
+            return c
+    return None
+
+
+def push_via_git(git, owner, repo, branch, message, files):
+    """git 模式：clone → 覆盖文件 → add/commit/push（一次 HTTP，不受 API 限流影响）。"""
+    tok = read_token()
+    hdr = "http.extraHeader=AUTHORIZATION: basic " + base64.b64encode(
+        f"x-access-token:{tok}".encode()).decode()
+    base = [git, "-c", hdr, "-c", "http.sslVerify=false",
+            "-c", "http.schannelCheckRevoke=false", "-c", "credential.helper=",
+            "-c", "core.autocrlf=false", "-c", "core.eol=lf",
+            "-c", "user.name=" + owner, "-c", "user.email=noreply@github.com"]
+    work = Path(tempfile.gettempdir()) / "dsh-github-push" / repo
+    url = f"https://github.com/{owner}/{repo}.git"
+
+    def run(args, cwd, check=True):
+        r = subprocess.run(base + args, cwd=str(cwd), capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+        if r.returncode != 0:
+            print("   git:", (r.stderr or r.stdout).strip()[:800])
+            if check:
+                raise SystemExit(f"git {args[0]} 失败")
+        return r
+
+    if not (work / ".git").exists():
+        work.parent.mkdir(parents=True, exist_ok=True)
+        if work.exists():
+            shutil.rmtree(work, ignore_errors=True)
+        run(["clone", "-q", "--branch", branch, url, work.name], work.parent)
+    else:
+        run(["fetch", "-q", "origin", branch], work)
+        run(["reset", "-q", "--hard", f"origin/{branch}"], work)
+
+    for rel, src in files.items():
+        dst = work / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+
+    run(["add", "-A"], work)
+    st = run(["status", "--porcelain"], work)
+    if not [l for l in st.stdout.splitlines() if l.strip()]:
+        print("远端已是最新，无需提交")
+        return
+    run(["commit", "-q", "-m", message], work)
+    run(["push", "-q", "--progress", "origin", branch], work)
+    head = run(["rev-parse", "HEAD"], work).stdout.strip()
+    print(f"完成: {head}")
+    print(f"https://github.com/{owner}/{repo}/commit/{head}")
+
+
 # ────────────────────────── 主流程 ──────────────────────────
 def git_blob_sha(data):
     h = hashlib.sha1()
@@ -160,6 +227,7 @@ def main():
     ap.add_argument("--branch", default="main")
     ap.add_argument("--message", default=None)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--api", action="store_true", help="强制走 Git Data API（不用 git）")
     args = ap.parse_args()
 
     token = read_token()
@@ -212,6 +280,13 @@ def main():
 
     if args.dry_run:
         print("dry-run：不提交")
+        return
+
+    git = None if args.api else find_git()
+    if git:
+        print(f"用 git 推送（{git}），{len(changed)} 个变动 ...")
+        push_via_git(git, args.owner, args.repo, args.branch,
+                     args.message or f"chore: 同步 {len(changed)} 个文件", files)
         return
 
     print("上传 blob ...")
